@@ -1,0 +1,1 @@
+Socket Stream Cloud is a package for simulating a cloud-like URL.

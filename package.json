@@ -1,0 +1,27 @@
+{
+  "name": "ss-cloud-test",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node bin/ss-cloud-test"
+  },
+  "dependencies": {
+    "express": "3.0.5",
+    "jade": "*"
+  },
+  "main": "bin/ss-cloud-test",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/americanyak/ss-cloud-test.git"
+  },
+  "keywords": [
+    "SocketStream",
+    "CDN",
+    "Development",
+    "Testing",
+    "Cloud"
+  ],
+  "author": "Arx Poetica",
+  "license": "MIT",
+  "description": "Socket Stream Cloud is a package for testing CDNs locally."
+}

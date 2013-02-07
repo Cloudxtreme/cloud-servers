@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+var rootDir = process.cwd() || '.',
+	express = require('express'),
+	app = express(),
+	http = require('http');
+
+app.configure(function() {
+	var maxAge = 1000 * 60 * 60;
+	app.set('port', process.env.PORT || 3333);
+	// app.set('views', __dirname + '/views');
+	// app.set('view engine', 'jade');
+	// app.use(express.favicon());
+	app.use(express.logger('dev'));
+	// app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	// app.use(app.router);
+	app.use(express.static(rootDir + '/CDN', { maxAge: maxAge }));
+	app.use(express.directory(rootDir + '/CDN'));
+	app.use(express.errorHandler());
+});
+
+http.createServer(app).listen(app.get('port'), function() {
+	console.log('Express server listening on port ' + app.get('port'));
+});
