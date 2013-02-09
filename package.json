@@ -1,6 +1,6 @@
 {
   "name": "cloud-servers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "start": "node bin/cloud-servers"
   },
@@ -25,5 +25,5 @@
   ],
   "author": "Arx Poetica",
   "license": "MIT",
-  "description": "Socket Stream Cloud is a package for testing CDNs locally."
+  "description": "Cloud Servers is a package for testing CDN-like behavior locally, running separate instances."
 }

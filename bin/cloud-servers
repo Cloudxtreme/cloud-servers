@@ -43,8 +43,8 @@ function runServer(settings) {
 
 		app = express();
 		port = settings.port || 3333;
-		dir = settings.dir || '/CDN';
-		dir = rootDir + dir;
+		dir = settings.dir || 'CDN';
+		dir = rootDir + '/' + dir;
 
 		directories[port] = dir;
 
