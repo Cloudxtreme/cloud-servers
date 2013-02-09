@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+var rootDir = process.cwd() || '.',
+	colors = require('colors'),
+	express = require('express'),
+	http = require('http'),
+	bytes = require('bytes'),
+	servers = require(rootDir + '/conf').servers,
+	directories = [];
+
+express.logger.format('cloud-test', function(tokens, req, res) {
+
+	var port = res.app.settings.port,
+		dir = directories[port] + ' ',
+		method = req.method + ' ',
+		url = req.originalUrl + ' ',
+		status = res.statusCode + ' ',
+		time = (new Date - req._startTime) + 'ms',
+		len = parseInt(res.getHeader('Content-Length'), 10),
+		domain;
+
+	len = isNaN(len) ? '' : len = ' - ' + bytes(len);
+
+	if(status >= 500) {
+		status = status.red;
+	} else if(status >= 400) {
+		status = status.yellow;
+	} else if(status >= 300) {
+		status = status.cyan;
+	} else {
+		status = status.green;
+	}
+
+	return 'Port '.grey + String(port).green + ' @ '.grey + dir.green + method.grey + url.green + status + time.grey + len.grey;
+
+});
+
+function runServer(settings) {
+
+	var app, port, dir;
+
+	if(settings) {
+
+		app = express();
+		port = settings.port || 3333;
+		dir = settings.dir || '/CDN';
+		dir = rootDir + dir;
+
+		directories[port] = dir;
+
+		app.configure(function() {
+			var maxAge = 1000 * 60 * 60;
+			app.set('port', port);
+			app.use(express.logger('cloud-test'));
+			// app.use(express.logger('dev'));
+			app.use(express.methodOverride());
+			app.use(express.static(dir, { maxAge: maxAge }));
+			app.use(express.directory(dir));
+			app.use(express.errorHandler());
+		});
+
+		http.createServer(app).listen(port, function() {
+			console.log('Test cloud server listening on port '.grey + String(port).green + ' @ '.grey + dir.green);
+			// return app;
+		});
+
+	}
+
+}
+
+servers.forEach(function(settings, i) {
+	runServer(settings);
+});
